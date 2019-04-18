@@ -11,10 +11,11 @@ public class Application {
     public static void main(String[] args) {
         SpringApplication.run(Application.class, args);
     }
+    //mvn archetype:generate -DarchetypeGroupId=org.apache.camel.archetypes -DarchetypeArtifactId=camel-archetype-spring-boot
 
     @Bean
-    ServletRegistrationBean servletRegistrationBean() {
-        ServletRegistrationBean servlet = new ServletRegistrationBean(new CamelHttpTransportServlet(), "/api-locadora/*");
+    public ServletRegistrationBean servletRegistrationBean() {
+        ServletRegistrationBean<CamelHttpTransportServlet> servlet = new ServletRegistrationBean<CamelHttpTransportServlet>(new CamelHttpTransportServlet(), "/api-locadora/*");
         servlet.setName("LocadoraService");
         return servlet;
     }
