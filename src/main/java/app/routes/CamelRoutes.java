@@ -1,6 +1,6 @@
-package com.routes;
+package app.routes;
 
-import com.processor.ListagemFilmesProcessor;
+import app.processor.ListagemFilmesProcessor;
 import org.apache.camel.builder.RouteBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;

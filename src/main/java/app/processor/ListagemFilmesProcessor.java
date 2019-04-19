@@ -1,7 +1,7 @@
-package com.processor;
+package app.processor;
 
-import com.model.Filme;
-import com.repository.FilmeRespository;
+import app.model.Filme;
+import app.repository.FilmeRespository;
 import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +15,6 @@ public class ListagemFilmesProcessor implements Processor {
 
     public void process(Exchange exchange) throws Exception {
         Iterable<Filme> filmes = filmeRespository.findAll();
-
         exchange.getOut().setBody(filmes);
     }
 }
