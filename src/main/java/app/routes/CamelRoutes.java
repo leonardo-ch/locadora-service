@@ -2,8 +2,10 @@ package app.routes;
 
 import app.processor.ListagemFilmesProcessor;
 import org.apache.camel.builder.RouteBuilder;
+import org.apache.camel.model.rest.RestBindingMode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
+
 
 @Configuration
 public class CamelRoutes extends RouteBuilder {
@@ -16,13 +18,16 @@ public class CamelRoutes extends RouteBuilder {
 
     @Override
     public void configure() {
+        restConfiguration()
+                .component("servlet")
+                .bindingMode(RestBindingMode.json);
 
         rest()
                 .get("/v1/filmes")
-                .to("listagemFilmesProcessor");
+                .to("direct:listagemFilmesProcessor");
 
-        from("listagemFilmesProcessor")
+        from("direct:listagemFilmesProcessor")
                 .process(listagemFilmesProcessor)
-                .marshal().json().endRest();
+                .endRest();
     }
 }

@@ -1,14 +1,12 @@
 package app.model;
 
 import lombok.*;
-import org.springframework.data.annotation.Id;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
 @Entity
+@Table(name = "filme", schema = "locadora")
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
@@ -17,9 +15,12 @@ import javax.validation.constraints.NotNull;
 public class Filme {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "id")
     private Integer id;
     @NotNull
+    @Column(name = "titulo")
     private String titulo;
     @NotNull
+    @Column(name = "diretor")
     private String diretor;
 }

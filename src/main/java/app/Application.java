@@ -14,9 +14,9 @@ public class Application {
     //mvn archetype:generate -DarchetypeGroupId=org.apache.camel.archetypes -DarchetypeArtifactId=camel-archetype-spring-boot
 
     @Bean
-    public ServletRegistrationBean servletRegistrationBean() {
-        ServletRegistrationBean<CamelHttpTransportServlet> servlet = new ServletRegistrationBean<CamelHttpTransportServlet>(new CamelHttpTransportServlet(), "/api-locadora/*");
-        servlet.setName("LocadoraService");
-        return servlet;
+    public ServletRegistrationBean<CamelHttpTransportServlet> camelServletRegistrationBean() {
+        ServletRegistrationBean<CamelHttpTransportServlet> registration = new ServletRegistrationBean<CamelHttpTransportServlet>(new CamelHttpTransportServlet(), "/api-locadora/*");
+        registration.setName("CamelServlet");
+        return registration;
     }
 }
