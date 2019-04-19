@@ -11,7 +11,6 @@ public class Application {
     public static void main(String[] args) {
         SpringApplication.run(Application.class, args);
     }
-    //mvn archetype:generate -DarchetypeGroupId=org.apache.camel.archetypes -DarchetypeArtifactId=camel-archetype-spring-boot
 
     @Bean
     public ServletRegistrationBean<CamelHttpTransportServlet> camelServletRegistrationBean() {

@@ -14,7 +14,11 @@ public class ListagemFilmesProcessor implements Processor {
     private FilmeRespository filmeRespository;
 
     public void process(Exchange exchange) throws Exception {
-        Iterable<Filme> filmes = filmeRespository.findAll();
-        exchange.getOut().setBody(filmes);
+        try {
+            Iterable<Filme> filmes = filmeRespository.findAll();
+            exchange.getOut().setBody(filmes);
+        } catch (Exception e) {
+            throw e;
+        }
     }
 }

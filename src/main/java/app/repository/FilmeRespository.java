@@ -6,4 +6,7 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface FilmeRespository extends CrudRepository<Filme, Integer> {
+
+    Iterable<Filme> findByTitulo(String titulo);
+    Iterable<Filme> findByDiretor(String diretor);
 }

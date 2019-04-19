@@ -23,4 +23,7 @@ public class Filme {
     @NotNull
     @Column(name = "diretor")
     private String diretor;
+    @NotNull
+    @Column(name = "qnt_filmes")
+    private Integer qntFilmes;
 }
