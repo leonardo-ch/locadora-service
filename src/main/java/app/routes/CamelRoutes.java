@@ -1,9 +1,7 @@
 package app.routes;
 
-import app.model.Usuario;
 import app.processor.*;
 import org.apache.camel.builder.RouteBuilder;
-import org.apache.camel.model.dataformat.JsonLibrary;
 import org.apache.camel.model.rest.RestBindingMode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
@@ -17,17 +15,22 @@ public class CamelRoutes extends RouteBuilder {
     private DevolverFilmeProcessor devolverFilmeProcessor;
     private PesquisarFilmeProcessor pesquisarFilmeProcessor;
     private CriarUsuarioProcessor criarUsuarioProcessor;
+    private LoginUsuarioProcessor loginUsuarioProcessor;
+    private TokenProcessor tokenProcessor;
 
     @Autowired
     public CamelRoutes(ListagemFilmesProcessor listagemFilmesProcessor, LocarFilmeProcessor locarFilmeProcessor,
                        ExceptionProcessor exceptionProcessor, DevolverFilmeProcessor devolverFilmeProcessor,
-                       PesquisarFilmeProcessor pesquisarFilmeProcessor, CriarUsuarioProcessor criarUsuarioProcessor) {
+                       PesquisarFilmeProcessor pesquisarFilmeProcessor, CriarUsuarioProcessor criarUsuarioProcessor,
+                       LoginUsuarioProcessor loginUsuarioProcessor, TokenProcessor tokenProcessor) {
         this.listagemFilmesProcessor = listagemFilmesProcessor;
         this.locarFilmeProcessor = locarFilmeProcessor;
         this.exceptionProcessor = exceptionProcessor;
         this.devolverFilmeProcessor = devolverFilmeProcessor;
         this.pesquisarFilmeProcessor = pesquisarFilmeProcessor;
         this.criarUsuarioProcessor = criarUsuarioProcessor;
+        this.loginUsuarioProcessor = loginUsuarioProcessor;
+        this.tokenProcessor = tokenProcessor;
     }
 
     @Override
@@ -43,6 +46,9 @@ public class CamelRoutes extends RouteBuilder {
 
         rest()
                 .get("/v1/filmes")
+                .to("direct:tokenProcessor");
+        from("direct:tokenProcessor")
+                .process(tokenProcessor)
                 .to("direct:listagemFilmesProcessor");
         from("direct:listagemFilmesProcessor")
                 .process(listagemFilmesProcessor)
@@ -50,6 +56,9 @@ public class CamelRoutes extends RouteBuilder {
 
         rest()
                 .post("v1/locarFilme")
+                .to("direct:tokenProcessor2");
+        from("direct:tokenProcessor2")
+                .process(tokenProcessor)
                 .to("direct:locarFilmeProcessor");
         from("direct:locarFilmeProcessor")
                 .process(locarFilmeProcessor)
@@ -57,6 +66,9 @@ public class CamelRoutes extends RouteBuilder {
 
         rest()
                 .post("v1/devolverFilme")
+                .to("direct:tokenProcessor3");
+        from("direct:tokenProcessor3")
+                .process(tokenProcessor)
                 .to("direct:devolverFilmeProcessor");
         from("direct:devolverFilmeProcessor")
                 .process(devolverFilmeProcessor)
@@ -64,6 +76,9 @@ public class CamelRoutes extends RouteBuilder {
 
         rest()
                 .get("v1/pesquisarFilme")
+                .to("direct:tokenProcessor4");
+        from("direct:tokenProcessor4")
+                .process(tokenProcessor)
                 .to("direct:pesquisarFilmeProcessor");
         from("direct:pesquisarFilmeProcessor")
                 .process(pesquisarFilmeProcessor)
@@ -74,6 +89,13 @@ public class CamelRoutes extends RouteBuilder {
                 .to("direct:criarUsuarioProcessor");
         from("direct:criarUsuarioProcessor")
                 .process(criarUsuarioProcessor)
+                .endRest();
+
+        rest()
+                .post("v1/loginUsuario")
+                .to("direct:loginUsuarioProcessor");
+        from("direct:loginUsuarioProcessor")
+                .process(loginUsuarioProcessor)
                 .endRest();
     }
 }

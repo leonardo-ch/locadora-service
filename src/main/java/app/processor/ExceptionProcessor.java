@@ -2,6 +2,7 @@ package app.processor;
 
 import app.domain.GenericResponse;
 import app.domain.MetadadosServico;
+import com.auth0.jwt.exceptions.JWTVerificationException;
 import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
 import org.springframework.http.HttpStatus;
@@ -15,7 +16,6 @@ public class ExceptionProcessor implements Processor {
         Exception cause = exchange.getProperty(Exchange.EXCEPTION_CAUGHT, Exception.class);
         exchange.getOut().setBody(createResponse(createMeta(cause)));
         exchange.getOut().setHeader(Exchange.HTTP_RESPONSE_CODE, HttpStatus.INTERNAL_SERVER_ERROR);
-        cause.printStackTrace();
     }
 
     private GenericResponse createResponse(MetadadosServico metadadosServico) {

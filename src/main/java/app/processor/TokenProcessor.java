@@ -1,37 +1,48 @@
 package app.processor;
 
+import app.domain.TokenUserObject;
+import app.domain.exceptions.ParameterExistsException;
 import app.model.Usuario;
+import app.repository.UsuarioRespository;
+import com.auth0.jwt.JWT;
+import com.auth0.jwt.JWTVerifier;
+import com.auth0.jwt.algorithms.Algorithm;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
 import org.apache.commons.codec.binary.Base64;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.io.IOException;
+import java.util.Objects;
 
 @Component
 public class TokenProcessor implements Processor {
 
+    @Autowired
+    private UsuarioRespository usuarioRespository;
+
     @Override
-    public void process(Exchange exchange) throws IOException {
+    public void process(Exchange exchange) throws Exception {
         String jwtToken = exchange.getIn().getHeader("Authorization", String.class);
-        System.out.println("------------ Decode JWT ------------");
+        if (Objects.isNull(jwtToken)) {
+            throw new ParameterExistsException("Parametro faltante: Authorization");
+        }
+
+        //Base64
         String[] split_string = jwtToken.split("\\.");
-        String base64EncodedHeader = split_string[0];
         String base64EncodedBody = split_string[1];
-
-        System.out.println("~~~~~~~~~ JWT Header ~~~~~~~");
         Base64 base64Url = new Base64(true);
-        String header = new String(base64Url.decode(base64EncodedHeader));
-        System.out.println("JWT Header : " + header);
-
-
-        System.out.println("~~~~~~~~~ JWT Body ~~~~~~~");
         String body = new String(base64Url.decode(base64EncodedBody));
         ObjectMapper objectMapper = new ObjectMapper();
-        Usuario usuario = objectMapper.readValue(body, Usuario.class);
-        exchange.getOut().setBody(usuario);
-        System.out.println("JWT Body : " + body);
+        TokenUserObject tokenUserObject = objectMapper.readValue(body, TokenUserObject.class);
+        Usuario usuario = usuarioRespository.findByNome(tokenUserObject.getUserId()).iterator().next();
 
+        //JWT
+        Algorithm algorithm = Algorithm.HMAC256(usuario.getSenha());
+        JWTVerifier verifier = JWT.require(algorithm)
+                .withIssuer("jwtauth")
+                .build();
+        verifier.verify(jwtToken);
     }
 }

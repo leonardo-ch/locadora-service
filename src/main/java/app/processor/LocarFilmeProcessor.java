@@ -19,22 +19,19 @@ public class LocarFilmeProcessor implements Processor {
     private FilmeRespository filmeRespository;
 
     public void process(Exchange exchange) {
-        try {
-            String nomeFilme = exchange.getIn().getHeader("nomeFilme", String.class);
-            Iterable<Filme> filmes = filmeRespository.findByTitulo(nomeFilme);
-            Filme filme = filmes.iterator().hasNext() ? filmes.iterator().next() : null;
-            if (Objects.isNull(filme)) {
-                exchange.getOut().setBody(createResponse(createMeta(false, null), filmes));
-                exchange.getOut().setHeader(Exchange.HTTP_RESPONSE_CODE, HttpStatus.NOT_FOUND.value());
-            } else if (filme.getQntFilmes() > 0) {
-                exchange.getOut().setBody(createResponse(createMeta(true, filme), filmes));
-            } else {
-                exchange.getOut().setBody(createResponse(createMeta(false, filme), filmes));
-            }
-            exchange.getOut().setHeader(Exchange.HTTP_RESPONSE_CODE, HttpStatus.OK.value());
-        } catch (Exception e) {
-            throw e;
+        String nomeFilme = exchange.getIn().getHeader("nomeFilme", String.class);
+        Iterable<Filme> filmes = filmeRespository.findByTitulo(nomeFilme);
+        Filme filme = filmes.iterator().hasNext() ? filmes.iterator().next() : null;
+        if (Objects.isNull(filme)) {
+            exchange.getOut().setBody(createResponse(createMeta(false, null), filmes));
+            exchange.getOut().setHeader(Exchange.HTTP_RESPONSE_CODE, HttpStatus.NOT_FOUND.value());
+        } else if (filme.getQntFilmes() > 0) {
+            exchange.getOut().setBody(createResponse(createMeta(true, filme), filmes));
+        } else {
+            exchange.getOut().setBody(createResponse(createMeta(false, filme), filmes));
         }
+        exchange.getOut().setHeader(Exchange.HTTP_RESPONSE_CODE, HttpStatus.OK.value());
+
     }
 
     private FilmeResponse createResponse(MetadadosServico metadadosServico, Iterable<Filme> filmes) {

@@ -26,29 +26,25 @@ public class CriarUsuarioProcessor implements Processor {
     private PasswordEncoder passwordEncoder;
 
     public void process(Exchange exchange) throws Exception {
-        try {
-            String nomeUsuario = exchange.getIn().getHeader("nomeUsuario", String.class);
-            String emailUsuario = exchange.getIn().getHeader("emailUsuario", String.class);
-            String senhaUsuario = exchange.getIn().getHeader("senhaUsuario", String.class);
-            Usuario usuario = Usuario.builder()
-                    .nome(nomeUsuario)
-                    .email(emailUsuario)
-                    .senha(passwordEncoder.encode(senhaUsuario)).build();
-            validateParameters(nomeUsuario, emailUsuario, senhaUsuario, usuario);
-            if (Objects.isNull(usuarioRespository.save(usuario))) {
-                exchange.getOut().setBody(createResponse(createMeta(null), null));
-                exchange.getOut().setHeader(Exchange.HTTP_RESPONSE_CODE, HttpStatus.OK.value());
-            } else {
-                exchange.getOut().setBody(createResponse(createMeta(usuario), usuario));
-                exchange.getOut().setHeader(Exchange.HTTP_RESPONSE_CODE, HttpStatus.CREATED.value());
-            }
-        } catch (
-                Exception e) {
-            throw e;
+        String nomeUsuario = exchange.getIn().getHeader("nomeUsuario", String.class);
+        String emailUsuario = exchange.getIn().getHeader("emailUsuario", String.class);
+        String senhaUsuario = exchange.getIn().getHeader("senhaUsuario", String.class);
+        validateParameters(nomeUsuario, emailUsuario, senhaUsuario);
+        Usuario usuario = Usuario.builder()
+                .nome(nomeUsuario)
+                .email(emailUsuario)
+                .senha(passwordEncoder.encode(senhaUsuario)).build();
+        if (Objects.isNull(usuarioRespository.save(usuario))) {
+            exchange.getOut().setBody(createResponse(createMeta(null), null));
+            exchange.getOut().setHeader(Exchange.HTTP_RESPONSE_CODE, HttpStatus.OK.value());
+        } else {
+            exchange.getOut().setBody(createResponse(createMeta(usuario), usuario));
+            exchange.getOut().setHeader(Exchange.HTTP_RESPONSE_CODE, HttpStatus.CREATED.value());
         }
     }
 
-    private void validateParameters(String nomeUsuario, String emailUsuario, String senhaUsuario, Usuario usuario) throws ParameterExistsException, EmailExistsException, NomeExistsException {
+    private void validateParameters(String nomeUsuario, String emailUsuario, String senhaUsuario)
+            throws ParameterExistsException, EmailExistsException, NomeExistsException {
         if (StringUtils.isBlank(nomeUsuario)) {
             throw new ParameterExistsException("Parametro faltante: nomeUsuario");
         }
@@ -58,11 +54,11 @@ public class CriarUsuarioProcessor implements Processor {
         if (StringUtils.isBlank(senhaUsuario)) {
             throw new ParameterExistsException("Parametro faltante: senhaUsuario");
         }
-        if (emailExist(usuario.getEmail())) {
-            throw new EmailExistsException("Já existe uma conta com esse email: " + usuario.getEmail());
+        if (emailExist(emailUsuario)) {
+            throw new EmailExistsException("Já existe uma conta com esse email: " + emailUsuario);
         }
-        if (nomeExist(usuario.getNome())) {
-            throw new NomeExistsException("Já existe uma conta com esse nome: " + usuario.getNome());
+        if (nomeExist(nomeUsuario)) {
+            throw new NomeExistsException("Já existe uma conta com esse nome: " + nomeUsuario);
         }
     }
 
@@ -72,7 +68,7 @@ public class CriarUsuarioProcessor implements Processor {
                 .usuario(usuario).build();
     }
 
-    private MetadadosServico createMeta(Usuario usuario) throws EmailExistsException, NomeExistsException {
+    private MetadadosServico createMeta(Usuario usuario) {
         if (Objects.isNull(usuario))
             return MetadadosServico.builder()
                     .code("ERR")

@@ -16,18 +16,14 @@ public class ListagemFilmesProcessor implements Processor {
     @Autowired
     private FilmeRespository filmeRespository;
 
-    public void process(Exchange exchange) throws Exception {
-        try {
-            Iterable<Filme> filmes = filmeRespository.findAll();
-            if (!filmes.iterator().hasNext()) {
-                exchange.getOut().setBody(createResponse(createMeta(filmes), null));
-            } else {
-                exchange.getOut().setBody(createResponse(createMeta(filmes), filmes));
-            }
-            exchange.getOut().setHeader(Exchange.HTTP_RESPONSE_CODE, HttpStatus.OK.value());
-        } catch (Exception e) {
-            throw e;
+    public void process(Exchange exchange) {
+        Iterable<Filme> filmes = filmeRespository.findAll();
+        if (!filmes.iterator().hasNext()) {
+            exchange.getOut().setBody(createResponse(createMeta(filmes), null));
+        } else {
+            exchange.getOut().setBody(createResponse(createMeta(filmes), filmes));
         }
+        exchange.getOut().setHeader(Exchange.HTTP_RESPONSE_CODE, HttpStatus.OK.value());
     }
 
     private FilmeResponse createResponse(MetadadosServico metadadosServico, Iterable<Filme> filmes) {
