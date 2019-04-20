@@ -1,0 +1,239 @@
+{
+	"info": {
+		"_postman_id": "e527a83d-18d0-4d15-b819-602d7cde1eb9",
+		"name": "[4all] [Teste Tecnico] Locadora Service",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Get Filmes",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJqd3RhdXRoIiwiZXhwIjoxNTU1Nzg4MzA5LCJpYXQiOjE1NTU3ODgyNDksInVzZXJJZCI6IlRlc3RlIEZpbmFsMyJ9.EHaQXYDjkQSk5LZeEe-N_6xegllXmj84dZt4txsauaY",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://localhost:8080/api-locadora/v1/filmes",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api-locadora",
+						"v1",
+						"filmes"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Locar Filme",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "nomeFilme",
+						"value": "The Godfather",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJqd3RhdXRoIiwiZXhwIjoxNTU1ODcyNTAwLCJpYXQiOjE1NTU3ODYxMDAsInVzZXJJZCI6IlRlc3RlIEZpbmFsIn0.ckm4To5pmIdlAag9fucwmp_2Hat8kYEPupV-Yv8qIK0",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://localhost:8080/api-locadora/v1/locarFilme",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api-locadora",
+						"v1",
+						"locarFilme"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Devolver Filme",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "nomeFilme",
+						"value": "The Godfather",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJqd3RhdXRoIiwiZXhwIjoxNTU1ODcyNTc1LCJpYXQiOjE1NTU3ODYxNzUsInVzZXJJZCI6IlRlc3RlIEZpbmFsMiJ9.qi9GD-bLQEHWAzKtt7NJ06Q-s3Wme43dGltDWOlODNo",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://localhost:8080/api-locadora/v1/devolverFilme",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api-locadora",
+						"v1",
+						"devolverFilme"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Pesquisar Filme",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "nomeFilme",
+						"type": "text",
+						"value": "The Godfather"
+					},
+					{
+						"key": "Authorization",
+						"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJqd3RhdXRoIiwiZXhwIjoxNTU1ODcyNTc1LCJpYXQiOjE1NTU3ODYxNzUsInVzZXJJZCI6IlRlc3RlIEZpbmFsMiJ9.qi9GD-bLQEHWAzKtt7NJ06Q-s3Wme43dGltDWOlODNo",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://localhost:8080/api-locadora/v1/pesquisarFilme",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api-locadora",
+						"v1",
+						"pesquisarFilme"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Criar Usuario",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/x-www-form-urlencoded",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "nomeUsuario",
+							"value": "Leonardo Chassot",
+							"type": "text"
+						},
+						{
+							"key": "emailUsuario",
+							"value": "leonardochassot2@gmail.com",
+							"type": "text"
+						},
+						{
+							"key": "senhaUsuario",
+							"value": "spring",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:8080/api-locadora/v1/criarUsuario",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api-locadora",
+						"v1",
+						"criarUsuario"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Login Usuario",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/x-www-form-urlencoded"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "nomeUsuario",
+							"value": "Leonardo Chassot",
+							"type": "text"
+						},
+						{
+							"key": "senhaUsuario",
+							"value": "spring",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:8080/api-locadora/v1/loginUsuario",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api-locadora",
+						"v1",
+						"loginUsuario"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
