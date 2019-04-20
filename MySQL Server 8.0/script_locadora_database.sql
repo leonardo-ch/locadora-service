@@ -22,9 +22,3 @@ CREATE TABLE locadora.usuario (
   senha varchar(255) not null,
   PRIMARY KEY (id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-
-insert into locadora.usuario(nome, email, senha)
-values("João da Silva", "joao@gmail.com", MD5('senha'));
-
-insert into locadora.usuario(nome, email, senha)
-values("Leonardo da Silva", "leonardochassot2@gmail.com", MD5('spring'));
