@@ -2,12 +2,13 @@
 
 O sistema deve permitir a criação de usuários (clientes), logon e logoff de um usuário, listagem de filmes disponíveis, locação de um filme, devolução de um filme, e pesquisa de filme pelo título.
 
-### Prerequisites
+### Pre-requisitos
 
 MySQL Server 8.0
+
 MySQL Workbench 8.0
 
-### Installing
+### Instalação
 
 Importação / Restauração de Dados no MySQL Workbench
 Restaure os dados exportados da operação de Exportação de Dados ou de outros dados exportados do comando mysqldump.
@@ -20,7 +21,7 @@ Clique em Iniciar Importação para iniciar o processo de importação. Use a gu
 
 https://dev.mysql.com/doc/workbench/en/wb-admin-export-import-management.html
 
-## Built With
+## Desenvolvido com:
 
 * [Springboot](https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/) - The web framework used
 * [Apache Camel](https://camel.apache.org/documentation.html) - The Route based framework
@@ -30,10 +31,6 @@ https://dev.mysql.com/doc/workbench/en/wb-admin-export-import-management.html
 * [MySQL](https://dev.mysql.com/doc/) - MySQL Database
 * [Swagger](https://swagger.io/docs/) - The API design framework
 
-## Authors
+## Autores
 
 * **Leonardo Chassot** - *Initial work* - [leonardo-ch](https://github.com/leonardo-ch)
-
-## License
-
-See the [LICENSE.md](LICENSE.md) file for details
