@@ -21,6 +21,14 @@ Clique em Iniciar Importação para iniciar o processo de importação. Use a gu
 
 https://dev.mysql.com/doc/workbench/en/wb-admin-export-import-management.html
 
+
+Apos isso, é necessário adicionar um novo usuário ao MySQL Server:
+
+CREATE USER 'springuser'@'localhost' IDENTIFIED BY 'springuser';
+
+
+Então, abrir o projeto atravéz de uma IDE, no caso utilizei IntelijIDE, e importar as dependencias pelo Maven e rodar a SpringBoot Application com as configurações de projeto.
+
 ## Desenvolvido com:
 
 * [Springboot](https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/) - The web framework used
