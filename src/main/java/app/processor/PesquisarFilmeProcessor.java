@@ -13,7 +13,7 @@ import org.springframework.stereotype.Component;
 import java.util.Objects;
 
 @Component
-public class LocarFilmeProcessor implements Processor {
+public class PesquisarFilmeProcessor implements Processor {
 
     @Autowired
     private FilmeRespository filmeRespository;
@@ -24,12 +24,9 @@ public class LocarFilmeProcessor implements Processor {
             Iterable<Filme> filmes = filmeRespository.findByTitulo(nomeFilme);
             Filme filme = filmes.iterator().hasNext() ? filmes.iterator().next() : null;
             if (Objects.isNull(filme)) {
-                exchange.getOut().setBody(createResponse(createMeta(false, null), filmes));
-                exchange.getOut().setHeader(Exchange.HTTP_RESPONSE_CODE, HttpStatus.NOT_FOUND.value());
-            } else if (filme.getQntFilmes() > 0) {
-                exchange.getOut().setBody(createResponse(createMeta(true, filme), filmes));
+                exchange.getOut().setBody(createResponse(createMeta(null), filmes));
             } else {
-                exchange.getOut().setBody(createResponse(createMeta(false, filme), filmes));
+                exchange.getOut().setBody(createResponse(createMeta(filme), filmes));
             }
             exchange.getOut().setHeader(Exchange.HTTP_RESPONSE_CODE, HttpStatus.OK.value());
         } catch (Exception e) {
@@ -43,22 +40,13 @@ public class LocarFilmeProcessor implements Processor {
                 .filmes(filmes).build();
     }
 
-    private MetadadosServico createMeta(boolean disponivel, Filme filme) {
+    private MetadadosServico createMeta(Filme filme) {
         if (Objects.isNull(filme))
             return MetadadosServico.builder()
                     .code("ERR")
                     .mensagem("Não foi possivel encontrar um filme com esse titulo").build();
-        if (disponivel) {
-            filme.setQntFilmes(filme.getQntFilmes() - 1);
-            filmeRespository.save(filme);
-            return MetadadosServico.builder()
-                    .code("HTTP")
-                    .mensagem(String.format("O Filme %s foi locado com sucesso", filme.getTitulo())).build();
-
-        } else {
-            return MetadadosServico.builder()
-                    .code("HTTP")
-                    .mensagem(String.format("O Filme %s está com todas as cópias locadas", filme.getTitulo())).build();
-        }
+        return MetadadosServico.builder()
+                .code("HTTP")
+                .mensagem(String.format("Filme %s encontrado", filme.getTitulo())).build();
     }
 }
