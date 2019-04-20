@@ -1,6 +1,6 @@
 app\processor\ListagemFilmesProcessor.class
 app\routes\CamelRoutes.class
 app\repository\FilmeRespository.class
-app\model\Filme$FilmeBuilder.class
 app\Application.class
 app\model\Filme.class
+app\model\Filme$FilmeBuilder.class
